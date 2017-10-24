@@ -9,6 +9,7 @@ html.no-js(lang='')
     link(rel='manifest', href='site.webmanifest')
     link(rel='apple-touch-icon', href='icon.png')
     // Place favicon.ico in the root directory
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet', integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN', crossorigin='anonymous')
     link(rel='stylesheet', href='/public/css/vendor/bootstrap.min.css')
     link(rel='stylesheet', href='/public/css/normalize.css')
     link(rel='stylesheet', href='/public/css/main.css')
@@ -28,6 +29,10 @@ html.no-js(lang='')
 
     main
       .container
+        - if (messages.info)
+          .message.info
+            span= messages.info
+        block content
 
     footer
       .container

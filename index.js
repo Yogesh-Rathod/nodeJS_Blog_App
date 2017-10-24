@@ -8,9 +8,13 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const path = require('path');
+const flash = require('express-flash');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 // ========== Local Dependencies ============= //
 const config = require('./src/config');
+const Routes = require('./src/controllers/routes');
 
 // ========== Config Options For Middlewares ============= //
 
@@ -31,6 +35,10 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(helmet());
+
+app.use(express.cookieParser('keyboard cat'));
+app.use(express.session({ cookie: { maxAge: 60000 } }));
+app.use(flash());
 
 // ========== Connect To MongoDB through Mongoose ============= //
 mongoose.connect(config.dbConnection(), { useMongoClient: true } );
@@ -64,9 +72,11 @@ process.on('SIGINT', function () {
 app.set('views', path.join(__dirname, '/src/views'));
 app.set('view engine', 'pug');
 
-// ========== Home Page Routing ============= //
-app.get('/', function (req, res) {
-  res.render('index', { title: 'Hey' })
+// ========== Routing ============= //
+Routes(app);
+
+app.get('*', (req, res) => {
+  res.render('notfound/notfound', { title: 'Register' });
 });
 
 // ========== Listen to Requests ============= //
