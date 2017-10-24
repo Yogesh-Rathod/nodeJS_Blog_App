@@ -7,23 +7,12 @@ const cors = require('cors');
 const morgan = require('morgan'); 
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-
+const path = require('path');
 
 // ========== Local Dependencies ============= //
 const config = require('./src/config');
 
 // ========== Config Options For Middlewares ============= //
-const staticOptions = {
-  dotfiles: 'ignore',
-  etag: false,
-  extensions: ['htm', 'html'],
-  index: false,
-  maxAge: '1d',
-  redirect: false,
-  setHeaders: function (res, path, stat) {
-    res.set('x-timestamp', Date.now())
-  }
-};
 
 const corsOptions = {
   origin: 'http://localhost:4200',
@@ -36,7 +25,8 @@ const PORT = process.env.PORT || 3000;
 
 // ========== Setting Up Middlewares ============= //
 app.use(cors(corsOptions));
-app.use(express.static('public', staticOptions));
+app.use('/public', express.static(path.join(__dirname, 'public')) );
+
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -70,12 +60,13 @@ process.on('SIGINT', function () {
 });
 
 
-// ========== API Routing ============= //
-// app.use('/api', routes );
+// ========== Setting View Engine ============= //
+app.set('views', path.join(__dirname, '/src/views'));
+app.set('view engine', 'pug');
 
 // ========== Home Page Routing ============= //
 app.get('/', function (req, res) {
-  res.json('Hello World! I am up and Running!');
+  res.render('index', { title: 'Hey' })
 });
 
 // ========== Listen to Requests ============= //
