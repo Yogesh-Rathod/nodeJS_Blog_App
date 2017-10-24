@@ -1,0 +1,40 @@
+doctype html
+html.no-js(lang='')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='x-ua-compatible', content='ie=edge')
+    title= title
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='manifest', href='site.webmanifest')
+    link(rel='apple-touch-icon', href='icon.png')
+    // Place favicon.ico in the root directory
+    link(rel='stylesheet', href='/public/css/vendor/bootstrap.min.css')
+    link(rel='stylesheet', href='/public/css/normalize.css')
+    link(rel='stylesheet', href='/public/css/main.css')
+  body
+    //if lte IE 9
+      p.browserupgrade
+        | You are using an 
+        strong outdated
+        |  browser. Please 
+        a(href='https://browsehappy.com/') upgrade your browser
+        |  to improve your experience and security.
+    // Add your site or application content here
+    
+    header
+      .container
+        include partials/header.pug
+
+    main
+      .container
+
+    footer
+      .container
+        include partials/footer.pug
+
+    script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
+    script(src='/public/js/vendor/bootstrap.min.js')
+    script.
+      window.jQuery || document.write('<script src="/public/js/vendor/jquery-3.2.1.min.js"><\\/script>')
+    // Google Analytics: change UA-XXXXX-Y to be your site's ID.
