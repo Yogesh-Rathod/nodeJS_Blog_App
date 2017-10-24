@@ -8,14 +8,19 @@ module.exports = function (app) {
 
   // ========== All GET Requests ============= //
   app.get('/', function (req, res) {
+    req.flash('danger', 'Welcome');
     res.render('auth/login', { title: 'Login' });
   });
 
   app.get('/login', function (req, res) {
+    req.flash('info', 'Welcome');
+
     res.render('auth/login', { title: 'Login' });
   });
 
   app.get('/register', function (req, res) {
+    req.flash('info', 'Welcome');
+
     res.render('auth/register', { title: 'Register' });
   });
 
@@ -31,7 +36,10 @@ module.exports = function (app) {
     Users.saveUser(user, (err, user) => {
       if (err) {
         console.log("err ", err);
-        throw err;
+        if(err.errors) {
+
+        }
+        // throw err;
       }
       res.render('auth/register', { title: 'Register' });
     });

@@ -29,9 +29,9 @@ html.no-js(lang='')
 
     main
       .container
-        - if (messages.info)
+        - if (messages)
           .message.info
-            span= messages.info
+            span= messages
         block content
 
     footer
