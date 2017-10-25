@@ -119,7 +119,7 @@ module.exports = function (app) {
             return;
           }
         }
-        res.render('auth/register', { title: 'Register' });
+        res.render('pages/home', { title: 'Home' });
       });
     }
 
