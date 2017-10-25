@@ -74,3 +74,11 @@
 ul {
     list-style-position: inside;
 }
+
+.panel-footer span {
+    margin-left: 20px;
+}
+
+.panel-footer span:first-child {
+    margin-left: 0;
+}

@@ -9,28 +9,76 @@ const Users = require('../models/Users');
 
 module.exports = function (app) {
 
+
   // ========== All GET Requests ============= //
-  app.get('/', function (req, res) {
-    res.render('auth/login', { title: 'Login' });
+  app.get('/', (req, res) => {
+    console.log('Cookies: ', req.cookies.userLogin)
+    if (req.cookies.userLogin) {
+      res.render('pages/home', { title: 'Home' });
+    } else {
+      res.redirect('/login');
+    }
+  }); 
+
+  app.get('/home', (req, res) => {
+    res.render('pages/home', { title: 'Home' });
+  }); 
+
+  app.get('/login', (req, res) => {
+    if (req.cookies.userLogin) {
+      res.redirect('/home');
+    } else {
+      res.render('auth/login', { title: 'Login' });
+    }
   });
 
-  app.get('/login', function (req, res) {
-    res.render('auth/login', { title: 'Login' });
-  });
-
-  app.get('/register', function (req, res) {
-
+  app.get('/register', (req, res) => {
     res.render('auth/register', { title: 'Register' });
   });
 
 
   // ========== All POST Requests ============= //
-  app.post('/login', function (req, res) {
-    console.log("req ", req.body);
-    res.render('auth/login', { title: 'Login' });
+  app.post('/login', (req, res) => {
+    req.checkBody("email", "Enter a valid email address.").isEmail();
+    req.checkBody("password", "Password should be 5 characters long.").isLength({ min: 5 });
+    const errors = req.validationErrors();
+    if (errors) {
+      console.log("errors ", errors);
+      res.render('auth/login', {
+        title: 'Login',
+        errors: errors
+      });
+      return;
+    } else {
+      console.log("else ");
+      // Users.findUser()
+      Users.findOne({ 'email': req.body.email }, (err, person) => {
+        if (err) {
+          console.log(err);
+        }
+        if (!person) {
+          const errors = ['User not found'];
+          res.render('auth/login', {
+            title: 'Login',
+            errors: errors
+          });
+        } else {
+          if ( person.password !== req.body.password ) {
+            const errors = ['Password is wrong!'];
+            res.render('auth/login', {
+              title: 'Login',
+              errors: errors
+            });
+          } else {
+            res.cookie('userLogin', true, { maxAge: 900000, httpOnly: true })
+            res.redirect('/');
+          }
+        }
+      });
+    }
   });
 
-  app.post('/register', function (req, res) {
+  app.post('/register', (req, res) => {
     // validate the inputs Express
     req.checkBody("name", "Name is required").notEmpty();
     req.checkBody("email", "Enter a valid email address.").isEmail();
@@ -40,23 +88,21 @@ module.exports = function (app) {
 
     const errors = req.validationErrors();
     if (errors) {
-      console.log("errors ", errors);
       res.render('auth/register', { 
         title: 'Register',
         errors: errors
       });
       return;
     } else {
-      let user = req.body;
+      let user = new Users(req.body);
       // Save User
-      Users.saveUser(user, (err, user) => {
+      user.save( (err, success) => {
         if (err) {
           // Schema Validation Errors
           if(err.errors) {
             const errors = [];
             _.forEach(err.errors, (errorFields) => {
               errors.push(errorFields.message);
-              console.log("errorFields ValidatorError", errorFields.message);
             });
             res.render('auth/register', {
               title: 'Register',

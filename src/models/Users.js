@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
 
 const usersSchema = mongoose.Schema({
   name: {
@@ -34,15 +35,4 @@ const usersSchema = mongoose.Schema({
 
 const Users = mongoose.model('Users', usersSchema);
 
-
-var validateEmail = (email) => {
-  const regEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  return regEx.test(email)
-};
-
-// module.exports = Users;
-
-
-module.exports.saveUser = (userInfo, callback) => {
-  Users.create(userInfo, callback);
-};
+module.exports = Users;

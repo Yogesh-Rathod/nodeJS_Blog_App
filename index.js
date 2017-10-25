@@ -8,10 +8,12 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const path = require('path');
-const flash = require('express-flash');
+const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const validator = require('express-validator');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 // ========== Local Dependencies ============= //
 const config = require('./src/config');
@@ -47,6 +49,9 @@ app.use(session({
 }));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 // ========== Connect To MongoDB through Mongoose ============= //
 mongoose.connect(config.dbConnection(), { useMongoClient: true } );
 
@@ -78,6 +83,7 @@ process.on('SIGINT', function () {
 // ========== Setting View Engine ============= //
 app.set('views', path.join(__dirname, '/src/views'));
 app.set('view engine', 'pug');
+
 
 // ========== Routing ============= //
 Routes(app);
