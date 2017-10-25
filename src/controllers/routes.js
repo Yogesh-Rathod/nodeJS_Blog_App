@@ -1,5 +1,6 @@
 // ========== Global Dependencies ============ // 
 const _ = require('lodash');
+const bcrypt = require('bcrypt');
 
 // ========== Local Imports ============= //
 
@@ -59,7 +60,6 @@ module.exports = function (app) {
     req.checkBody("password", "Password should be 5 characters long.").isLength({ min: 5 });
     const errors = req.validationErrors();
     if (errors) {
-      console.log("errors ", errors);
       res.render('auth/login', {
         title: 'Login',
         errors: errors
@@ -79,7 +79,7 @@ module.exports = function (app) {
             errors: errors
           });
         } else {
-          if ( person.password !== req.body.password ) {
+          if (!bcrypt.compareSync(req.body.password, person.password) ) {
             const errors = ['Password is wrong!'];
             res.render('auth/login', {
               title: 'Login',
@@ -115,6 +115,8 @@ module.exports = function (app) {
       return;
     } else {
       let user = new Users(req.body);
+      const hash = bcrypt.hashSync(user.password, 10);
+      user.password = hash;
       // Save User
       user.save( (err, success) => {
         if (err) {
