@@ -27,6 +27,14 @@ module.exports = function (app) {
     }
   }); 
 
+  app.get('/about', (req, res) => {
+    if (req.cookies.userLogin) {
+      res.render('pages/about', { title: 'About' });
+    } else {
+      res.redirect('/login');
+    }
+  }); 
+
   app.get('/login', (req, res) => {
     if (req.cookies.userLogin) {
       res.redirect('/home');
