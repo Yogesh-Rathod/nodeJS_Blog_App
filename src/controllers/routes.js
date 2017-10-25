@@ -81,7 +81,7 @@ module.exports = function (app) {
             if (req.body.rememberMe) {
               res.cookie('userLogin', true, { maxAge: 900000000000, httpOnly: true });
             } else {
-              res.cookie('userLogin', true, { maxAge: 50000, httpOnly: true });
+              res.cookie('userLogin', true, { maxAge: 9000000, httpOnly: true });
             }
             res.redirect('/');
           }

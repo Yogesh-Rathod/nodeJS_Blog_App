@@ -2,10 +2,74 @@ extends ../index.pug
 
 block content
 
-	.panel.panel-default
-		.panel-heading Panel Heading
-		.panel-body Panel Content
-		.panel-footer
-			span.label.label-default Welcome
-			span.label.label-default Updates
-			span.label.label-default July
+	.col-xs-9
+		.panel.panel-default
+			.panel-heading 
+				h4 Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				span By Some one 
+				span - 2 hours ago 
+				a(href='') 8 comments
+			.panel-body.row
+				.col-xs-4
+					img.img-responsive(src='/public/img/im-502226434.jpg')
+				.col-xs-8
+					p Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste nesciunt soluta aliquid aliquam laborum consectetur est quae, animi sit velit! Sequi, facere tenetur perspiciatis nesciunt nulla inventore libero numquam? Cum! 
+						a(href='') Continue Reading
+
+		.panel.panel-default
+			.panel-heading 
+				h4 Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				span By Some one 
+				span - 2 hours ago 
+				a(href='') 8 comments
+			.panel-body.row
+				.col-xs-4
+					img.img-responsive(src='/public/img/maxresdefault.jpg')
+				.col-xs-8
+					p Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste nesciunt soluta aliquid aliquam laborum consectetur est quae, animi sit velit! Sequi, facere tenetur perspiciatis nesciunt nulla inventore libero numquam? Cum! 
+						a(href='') Continue Reading
+
+
+	.col-xs-3
+		.searchbox
+			h4 Search Blog
+			#imaginary_container
+				.input-group.stylish-input-group
+					input.form-control(type='text', placeholder='Search')
+					span.input-group-addon
+						button(type='submit')
+							i.fa.fa-search(aria-hidden='true')
+
+		.categories
+			.single.category
+				h3.side-title Blog Categories
+				ul.list-unstyled
+					li
+						a(href='', title='')
+							| Business 
+							span.pull-right 13
+					li
+						a(href='', title='')
+							| Technology 
+							span.pull-right 13
+					li
+						a(href='', title='')
+							| Web 
+							span.pull-right 13
+					li
+						a(href='', title='')
+							| Ecommerce 
+							span.pull-right 13
+
+		.popular-posts
+			h4 Popular Posts
+			.blog.clearfix
+				.col-xs-4.no_padding
+					img.img-responsive(src='/public/img/im-502226434.jpg')
+				.col-xs-8
+					p Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+			.blog.clearfix
+				.col-xs-4.no_padding
+					img.img-responsive(src='/public/img/im-502226434.jpg')
+				.col-xs-8
+					p Lorem ipsum dolor sit, amet consectetur adipisicing elit.
