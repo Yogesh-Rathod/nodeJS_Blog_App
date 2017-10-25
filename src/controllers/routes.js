@@ -58,7 +58,7 @@ module.exports = function (app) {
       });
       return;
     } else {
-      console.log("else ");
+      console.log("req BODY", req.body);
       // Users.findUser()
       Users.findOne({ 'email': req.body.email }, (err, person) => {
         if (err) {
@@ -78,7 +78,11 @@ module.exports = function (app) {
               errors: errors
             });
           } else {
-            res.cookie('userLogin', true, { maxAge: 900000, httpOnly: true })
+            if (req.body.rememberMe) {
+              res.cookie('userLogin', true, { maxAge: 900000000000, httpOnly: true });
+            } else {
+              res.cookie('userLogin', true, { maxAge: 50000, httpOnly: true });
+            }
             res.redirect('/');
           }
         }
