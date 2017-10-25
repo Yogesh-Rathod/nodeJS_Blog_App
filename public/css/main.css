@@ -71,3 +71,6 @@
     padding: 30px 50px 50px;
 }
 
+ul {
+    list-style-position: inside;
+}

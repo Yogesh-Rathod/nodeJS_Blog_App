@@ -11,6 +11,7 @@ const path = require('path');
 const flash = require('express-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const validator = require('express-validator');
 
 // ========== Local Dependencies ============= //
 const config = require('./src/config');
@@ -34,6 +35,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')) );
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(validator());
 app.use(helmet());
 
 app.use(cookieParser('keyboard cat'));
