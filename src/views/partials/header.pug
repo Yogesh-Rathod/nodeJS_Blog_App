@@ -1,5 +1,5 @@
 nav.navbar.navbar-default
-  .container-fluid
+  .container-fluid.clearfix
     .navbar-header
       a.navbar-brand(href='#') WebSiteName
     ul.nav.navbar-nav
@@ -11,3 +11,5 @@ nav.navbar.navbar-default
         a(href='#') Page 2
       li
         a(href='#') Page 3
+    form.pull-right(method='POST', action='/sign-out')
+      input.btn.btn-primary(type='submit', value='Sign out')

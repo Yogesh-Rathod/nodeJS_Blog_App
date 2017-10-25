@@ -12,7 +12,6 @@ module.exports = function (app) {
 
   // ========== All GET Requests ============= //
   app.get('/', (req, res) => {
-    console.log('Cookies: ', req.cookies.userLogin)
     if (req.cookies.userLogin) {
       res.render('pages/home', { title: 'Home' });
     } else {
@@ -21,7 +20,11 @@ module.exports = function (app) {
   }); 
 
   app.get('/home', (req, res) => {
-    res.render('pages/home', { title: 'Home' });
+    if (req.cookies.userLogin) {
+      res.render('pages/home', { title: 'Home' });
+    } else {
+      res.render('auth/login', { title: 'Login' });
+    }
   }); 
 
   app.get('/login', (req, res) => {
@@ -38,6 +41,11 @@ module.exports = function (app) {
 
 
   // ========== All POST Requests ============= //
+  app.post('/sign-out', (req, res) => {
+    res.clearCookie("userLogin");
+    res.redirect('/login');
+  });
+
   app.post('/login', (req, res) => {
     req.checkBody("email", "Enter a valid email address.").isEmail();
     req.checkBody("password", "Password should be 5 characters long.").isLength({ min: 5 });
@@ -116,5 +124,6 @@ module.exports = function (app) {
     }
 
   });
+  
 
 }
