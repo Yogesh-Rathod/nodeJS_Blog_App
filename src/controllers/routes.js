@@ -45,6 +45,14 @@ module.exports = function (app) {
     }
   }); 
 
+  app.get('/blog-detail', (req, res) => {
+    if (req.cookies.userLogin) {
+      res.render('pages/blog-detail', { title: 'Blog Details' });
+    } else {
+      res.redirect('/login');
+    }
+  }); 
+
   app.get('/login', (req, res) => {
     if (req.cookies.userLogin) {
       res.redirect('/home');
