@@ -5,6 +5,10 @@ block content
 		ul.alert.alert-danger
 			for error in errors
 				li!= error.msg || error
+
+	if mailSentMessage  
+		ul.alert.alert-success
+			li Mail is succesfully sent. We will get in touch with you soon.
 				
 	section#contact 
 		.section-content

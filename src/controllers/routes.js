@@ -77,7 +77,10 @@ module.exports = function (app) {
     } else {
       sendMail(req.body);
     }
-    res.redirect('/contact');
+    res.render('pages/contact', {
+      title: 'Contact',
+      mailSentMessage: true
+    });
   });
 
   app.post('/login', (req, res) => {
