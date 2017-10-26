@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 // ========== Local Imports ============= //
 
 const Users = require('../models/Users');
+const sendMail = require('./mailer');
 
 // ========== Routing ============= //
 
@@ -36,6 +37,14 @@ module.exports = function (app) {
     }
   }); 
 
+  app.get('/contact', (req, res) => {
+    if (req.cookies.userLogin) {
+      res.render('pages/contact', { title: 'Contact' });
+    } else {
+      res.redirect('/login');
+    }
+  }); 
+
   app.get('/login', (req, res) => {
     if (req.cookies.userLogin) {
       res.redirect('/home');
@@ -53,6 +62,22 @@ module.exports = function (app) {
   app.post('/sign-out', (req, res) => {
     res.clearCookie("userLogin");
     res.redirect('/login');
+  });
+
+  app.post('/contact', (req, res) => {
+    req.checkBody("name", "Name is required").notEmpty();
+    req.checkBody("email", "Enter a valid email address.").isEmail();
+    const errors = req.validationErrors();
+    if (errors) {
+      res.render('pages/contact', {
+        title: 'Contact',
+        errors: errors
+      });
+      return;
+    } else {
+      sendMail(req.body);
+    }
+    res.redirect('/contact');
   });
 
   app.post('/login', (req, res) => {

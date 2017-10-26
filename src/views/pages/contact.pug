@@ -1,0 +1,35 @@
+extends ../index.pug
+
+block content
+	if errors  
+		ul.alert.alert-danger
+			for error in errors
+				li!= error.msg || error
+				
+	section#contact 
+		.section-content
+			h1.section-header
+				| Get in 
+				span.content-header.wow.fadeIn(data-wow-delay='0.2s', data-wow-duration='2s')  Touch with us
+			h3 Lorem Ipsum is simply dummy text of the printing and typesetting industry
+		.contact-section
+			.containers
+				form(method='POST', action='/contact')
+					.col-md-6.form-line
+						.form-group
+							label(for='exampleInputUsername') Your name
+							input.form-control(type='text', name='name', placeholder=' Enter Name')
+						.form-group
+							label(for='exampleInputEmail') Email Address
+							input#exampleInputEmail.form-control(type='email', name='email', placeholder=' Enter Email id')
+						.form-group
+							label(for='telephone') Mobile No.
+							input#telephone.form-control(type='tel', name='phone', placeholder=' Enter 10-digit mobile no.')
+					.col-md-6
+						.form-group
+							label(for='description')  Message
+							textarea#description.form-control(name='message', placeholder='Enter Your Message')
+						div
+							button.btn.btn-default.submit(type='submit')
+								i.fa.fa-paper-plane(aria-hidden='true')
+								|   Send Message
