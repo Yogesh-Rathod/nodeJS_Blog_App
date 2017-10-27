@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 // ========== Local Imports ============= //
 
 const Users = require('../models/Users');
+const Categories = require('../models/Categories');
+
 const sendMail = require('./mailer');
 
 // ========== Routing ============= //
@@ -91,6 +93,30 @@ module.exports = function (app) {
     });
   });
 
+  app.post('/category', (req, res) => {
+    req.checkBody("name", "Name is required").notEmpty();
+    const errors = req.validationErrors();
+    if (errors) {
+      console.log("errors ", errors);
+    } else {
+      Categories.findOne({ 'name': req.body.name}, (err, category) => {
+        if (err) {
+          console.log(err);
+        }
+        if (category) {
+          console.log('this category already exists');
+        } else {
+          Categories.save((err, success) => {
+            if (err) {
+              console.log(err);
+            }
+            console.log('success');
+          });
+        }
+      });
+    }
+  });
+
   app.post('/login', (req, res) => {
     req.checkBody("email", "Enter a valid email address.").isEmail();
     req.checkBody("password", "Password should be 5 characters long.").isLength({ min: 5 });
@@ -172,7 +198,6 @@ module.exports = function (app) {
         res.render('pages/home', { title: 'Home' });
       });
     }
-
   });
   
 

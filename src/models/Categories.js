@@ -1,2 +1,8 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+
+const categoriesSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: 'Name is required'
+  }
+});
