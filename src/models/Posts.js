@@ -24,8 +24,8 @@ const postsSchema = mongoose.Schema({
   tags: {
     type: [String]
   },
-  comments: {
-    type: Schema.ObjectId
+  category: {
+    type: String
   }
 },{
     timestamps: true

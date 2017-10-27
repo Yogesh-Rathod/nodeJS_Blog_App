@@ -1,7 +1,7 @@
 extends ../index.pug
 
 block content
-	if errors  
+	if errors 
 		ul.alert.alert-danger
 			for error in errors
 				li!= error.msg || error
@@ -28,5 +28,11 @@ block content
 					.form-group
 						label Tags
 						ul#myTags(name='tags')
-						//- input#Status(type="checkbox", name="status")
+					.form-group
+						label Category
+						select.form-control(name='category')
+							if categories
+								for category in categories
+									option(value!=category.name)!= category.name
+
 					button#submit.btn.btn-primary.pull-right(type="submit") Submit Form

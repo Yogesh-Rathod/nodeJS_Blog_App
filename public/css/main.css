@@ -1,3 +1,11 @@
+select.form-control {
+    text-transform: capitalize;
+}
+
+.add-blog-button {
+    margin-bottom: 20px;
+}
+
 input#Status {
     margin-left: 15px;
     transform: translateY(2px);

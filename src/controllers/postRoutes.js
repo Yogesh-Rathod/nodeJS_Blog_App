@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 // ========== Local Imports ============= //
 
 const Posts = require('../models/Posts');
+const Categories = require('../models/Categories');
 
 // ========== Routing ============= //
 
@@ -12,7 +13,12 @@ module.exports = (app) => {
 
   app.get('/add-post', (req, res) => {
     if (req.cookies.userLogin) {
-      res.render('pages/add-post', { title: 'Add Post' });
+      Categories.find({}, (err, categories) => {
+        if (err) {
+          res.send(err);
+        }
+        res.render('pages/add-post', { title: 'Add Post', categories: categories });
+      });
     } else {
       res.redirect('/login');
     }
@@ -31,8 +37,11 @@ module.exports = (app) => {
       });
       return;
     } else {
+      const authorId = req.cookies.userLogin['id'];
       const post = new Posts(req.body);
-      user.save((err, success) => {
+      console.log("req.body ", req.body);
+      post.author = authorId;
+      post.save((err, success) => {
         if (err) {
           // Schema Validation Errors
           if (err.errors) {
@@ -47,17 +56,13 @@ module.exports = (app) => {
             return;
           }
         } else {
-
-          console.log("success ", success);
-          res.render('pages/add-post', {
-            title: 'Add Post'
-          });
+          res.redirect('/home');
         }
         
       });
+      // res.redirect('/add-post');
     }
 
-    // res.redirect('/add-post');
   });
 
 }
