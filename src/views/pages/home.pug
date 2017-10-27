@@ -5,31 +5,20 @@ block content
 
 	.col-xs-9
 		a.btn.btn-success.add-blog-button(href='/add-post') Add New Post
-		.panel.panel-default
-			.panel-heading 
-				h4 Lorem ipsum dolor sit amet consectetur adipisicing elit.
-				span By Some one 
-				span - 2 hours ago 
-				a(href='') 8 comments
-			.panel-body.row
-				.col-xs-4
-					img.img-responsive(src='/public/img/im-502226434.jpg')
-				.col-xs-8
-					p Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste nesciunt soluta aliquid aliquam laborum consectetur est quae, animi sit velit! Sequi, facere tenetur perspiciatis nesciunt nulla inventore libero numquam? Cum! 
-						a(href='/blog-detail') Continue Reading
-
-		.panel.panel-default
-			.panel-heading 
-				h4 Lorem ipsum dolor sit amet consectetur adipisicing elit.
-				span By Some one 
-				span - 2 hours ago 
-				a(href='') 8 comments
-			.panel-body.row
-				.col-xs-4
-					img.img-responsive(src='/public/img/maxresdefault.jpg')
-				.col-xs-8
-					p Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste nesciunt soluta aliquid aliquam laborum consectetur est quae, animi sit velit! Sequi, facere tenetur perspiciatis nesciunt nulla inventore libero numquam? Cum! 
-						a(href='/blog-detail') Continue Reading
+		if posts
+			for post in posts
+				.panel.panel-default
+					.panel-heading 
+						h4!= post.title
+						span By Some one 
+						span - 2 hours ago 
+						a(href='') 8 comments
+					.panel-body.row
+						.col-xs-4
+							img.img-responsive(src!=post.image)
+						.col-xs-8
+							p!= post.content
+								a(href='/blog-detail') Continue Reading
 
 
 	.col-xs-3

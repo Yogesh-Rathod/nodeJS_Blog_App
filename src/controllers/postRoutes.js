@@ -60,9 +60,7 @@ module.exports = (app, upload) => {
         } else {
           res.redirect('/home');
         }
-        
       });
-      // res.redirect('/add-post');
     }
 
   });

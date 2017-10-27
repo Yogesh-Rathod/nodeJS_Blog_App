@@ -6,7 +6,7 @@ const postsSchema = mongoose.Schema({
     type: Schema.ObjectId,
     required: 'Author Id is required'
   },
-  title: {
+  title: { 
     type: String,
     required: 'Title is required'
   },

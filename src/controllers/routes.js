@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 
 const Users = require('../models/Users');
 const Categories = require('../models/Categories');
-
+const Posts = require('../models/Posts');
 const sendMail = require('./mailer');
 
 // ========== Routing ============= //
@@ -21,9 +21,15 @@ module.exports = (app) => {
         if (err) {
           res.send(err);
         }
-        res.render('pages/home', { 
-          title: 'Home',
-          categories: categories
+        Posts.find({}, (err, posts) => {
+          if (err) {
+            res.send(err);
+          }
+          res.render('pages/home', { 
+            title: 'Home',
+            categories: categories,
+            posts: posts
+          });
         });
       });
     } else {
@@ -37,9 +43,15 @@ module.exports = (app) => {
         if (err) {
           res.send(err);
         }
-        res.render('pages/home', {
-          title: 'Home',
-          categories: categories
+        Posts.find({}, (err, posts) => {
+          if (err) {
+            res.send(err);
+          }
+          res.render('pages/home', {
+            title: 'Home',
+            categories: categories,
+            posts: posts
+          });
         });
       });
     } else {
