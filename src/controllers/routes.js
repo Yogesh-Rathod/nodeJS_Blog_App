@@ -17,7 +17,15 @@ module.exports = function (app) {
   // ========== All GET Requests ============= //
   app.get('/', (req, res) => {
     if (req.cookies.userLogin) {
-      res.render('pages/home', { title: 'Home' });
+      Categories.find({}, (err, categories) => {
+        if (err) {
+          res.send(err);
+        }
+        res.render('pages/home', { 
+          title: 'Home',
+          categories: categories
+        });
+      });
     } else {
       res.redirect('/login');
     }
@@ -25,7 +33,15 @@ module.exports = function (app) {
 
   app.get('/home', (req, res) => {
     if (req.cookies.userLogin) {
-      res.render('pages/home', { title: 'Home' });
+      Categories.find({}, (err, categories) => {
+        if (err) {
+          res.send(err);
+        }
+        res.render('pages/home', {
+          title: 'Home',
+          categories: categories
+        });
+      });
     } else {
       res.render('auth/login', { title: 'Login' });
     }
@@ -98,6 +114,7 @@ module.exports = function (app) {
     const errors = req.validationErrors();
     if (errors) {
       console.log("errors ", errors);
+      res.send(errors);
     } else {
       Categories.findOne({ 'name': req.body.name}, (err, category) => {
         if (err) {
@@ -105,12 +122,17 @@ module.exports = function (app) {
         }
         if (category) {
           console.log('this category already exists');
+          res.send('this category already exists');
         } else {
-          Categories.save((err, success) => {
+          let category = new Categories(req.body);
+          category.save((err, success) => {
             if (err) {
-              console.log(err);
+              console.log('err',err);
+              res.send(err);
             }
-            console.log('success');
+            // console.log('success');
+            console.log("success ", success);
+            res.send(success);
           });
         }
       });

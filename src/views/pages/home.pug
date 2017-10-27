@@ -43,23 +43,16 @@ block content
 		.categories
 			.single.category
 				h3.side-title Blog Categories
-				ul.list-unstyled
-					li
-						a(href='', title='')
-							| Business 
-							span.pull-right 13
-					li
-						a(href='', title='')
-							| Technology 
-							span.pull-right 13
-					li
-						a(href='', title='')
-							| Web 
-							span.pull-right 13
-					li
-						a(href='', title='')
-							| Ecommerce 
-							span.pull-right 13
+				if categories
+					if categories.length > 0
+						ul.list-unstyled
+							for category in categories
+								li
+									a(href='javascript:void(0)', title='')!= category.name
+										span.pull-right 13
+
+					if categories.length == 0
+						p No categories
 
 		.popular-posts
 			h4 Popular Posts
