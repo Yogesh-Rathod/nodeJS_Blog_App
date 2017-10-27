@@ -71,6 +71,14 @@ module.exports = (app) => {
     }
   });
 
+  app.get('/add-post', (req, res) => {
+    if (req.cookies.userLogin) {
+      res.render('pages/add-post', { title: 'Add Post' });
+    } else {
+      res.redirect('/login');
+    }
+  });
+
 
   // // ========== All POST Requests ============= //
 

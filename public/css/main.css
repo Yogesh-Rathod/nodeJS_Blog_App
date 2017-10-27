@@ -1,3 +1,19 @@
+input#Status {
+    margin-left: 15px;
+    transform: translateY(2px);
+}
+
+.form-area {
+    background-color: #FAFAFA;
+	padding: 10px 40px 60px;
+	margin: 10px 0px 60px;
+	border: 1px solid GREY;
+}
+
+.add-post label {
+    color: #191414;
+}
+
 /*Contact sectiom*/
 .content-header{
   font-family: 'Oleo Script', cursive;
@@ -7,7 +23,6 @@
 
 .section-content{
   text-align: center; 
-
 }
 #contact{
     
