@@ -19,6 +19,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const config = require('./src/config');
 const Routes = require('./src/controllers/routes');
 const authRoutes = require('./src/controllers/authRoutes');
+const postRoutes = require('./src/controllers/postRoutes');
 
 // ========== Config Options For Middlewares ============= //
 
@@ -89,6 +90,7 @@ app.set('view engine', 'pug');
 // ========== Routing ============= //
 Routes(app);
 authRoutes(app);
+postRoutes(app);
 
 // Page Not Found Route
 app.get('*', (req, res) => {

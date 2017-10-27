@@ -10,7 +10,7 @@ block content
 	.container.add-post
 		.col-md-7.col-xs-offset-2
 			.form-area
-				form(method='POST', action='/savepost')
+				form(method='POST', action='/add-post')
 					br(style="clear:both")
 					h3(style="margin-bottom: 25px; text-align: center;") Add Post Form
 					.form-group
@@ -24,9 +24,9 @@ block content
 						input#Image.form-control(type="file", name="image")
 					.form-group
 						label Status
-						input#Status(type="checkbox", name="status")
+						input#Status(type="checkbox", name="status", value="false")
 					.form-group
 						label Tags
 						ul#myTags(name='tags')
 						//- input#Status(type="checkbox", name="status")
-					button#submit.btn.btn-primary.pull-right(type="button", name="submit") Submit Form
+					button#submit.btn.btn-primary.pull-right(type="submit") Submit Form

@@ -62,10 +62,14 @@ module.exports = (app) => {
               errors: errors
             });
           } else {
+            const userInfo = {
+              name: person.name,
+              id: person._id
+            };
             if (req.body.rememberMe) {
-              res.cookie('userLogin', true, { maxAge: 900000000000, httpOnly: true });
+              res.cookie('userLogin', userInfo, { maxAge: 900000000000, httpOnly: true });
             } else {
-              res.cookie('userLogin', true, { maxAge: 9000000, httpOnly: true });
+              res.cookie('userLogin', userInfo, { maxAge: 9000000, httpOnly: true });
             }
             res.redirect('/');
           }
@@ -90,7 +94,7 @@ module.exports = (app) => {
       });
       return;
     } else {
-      let user = new Users(req.body);
+      const user = new Users(req.body);
       const hash = bcrypt.hashSync(user.password, 10);
       user.password = hash;
       // Save User
