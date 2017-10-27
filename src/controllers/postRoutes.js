@@ -9,7 +9,7 @@ const Categories = require('../models/Categories');
 
 // ========== Routing ============= //
 
-module.exports = (app) => {
+module.exports = (app, upload) => {
 
   app.get('/add-post', (req, res) => {
     if (req.cookies.userLogin) {
@@ -24,14 +24,16 @@ module.exports = (app) => {
     }
   });
 
-  app.post('/add-post', (req, res) => {
+  app.post('/add-post', upload.single('postImage'), (req, res) => {
+    console.log("req BODY", req.body);
+    console.log("req FILE", req.file);
     req.checkBody("title", "Title is required.").notEmpty();
     req.checkBody("content", "Content is required.").notEmpty();
     req.checkBody("status", "Status is required.").notEmpty();
     const errors = req.validationErrors();
     if (errors) {
       // res.send(errors);
-      res.render('pages/add-post', { 
+      res.render('pages/add-post', {
         title: 'Add Post',
         errors: errors
       });
@@ -39,8 +41,8 @@ module.exports = (app) => {
     } else {
       const authorId = req.cookies.userLogin['id'];
       const post = new Posts(req.body);
-      console.log("req.body ", req.body);
       post.author = authorId;
+      post.image = req.file.path;
       post.save((err, success) => {
         if (err) {
           // Schema Validation Errors

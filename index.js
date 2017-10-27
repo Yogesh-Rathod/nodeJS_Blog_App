@@ -14,6 +14,8 @@ const session = require('express-session');
 const validator = require('express-validator');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const multer = require('multer');
+const upload = multer({ dest: 'public/uploads/' });
 
 // ========== Local Dependencies ============= //
 const config = require('./src/config');
@@ -90,7 +92,7 @@ app.set('view engine', 'pug');
 // ========== Routing ============= //
 Routes(app);
 authRoutes(app);
-postRoutes(app);
+postRoutes(app, upload);
 
 // Page Not Found Route
 app.get('*', (req, res) => {

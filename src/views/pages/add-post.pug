@@ -10,7 +10,7 @@ block content
 	.container.add-post
 		.col-md-7.col-xs-offset-2
 			.form-area
-				form(method='POST', action='/add-post')
+				form(method='POST', action='/add-post', enctype='multipart/form-data')
 					br(style="clear:both")
 					h3(style="margin-bottom: 25px; text-align: center;") Add Post Form
 					.form-group
@@ -21,7 +21,7 @@ block content
 						textarea#editor1(name='content', rows='10', cols='80')
 					.form-group
 						label Post Image
-						input#Image.form-control(type="file", name="image")
+						input.form-control(type="file", name='postImage')
 					.form-group
 						label Status
 						input#Status(type="checkbox", name="status", value="false")
