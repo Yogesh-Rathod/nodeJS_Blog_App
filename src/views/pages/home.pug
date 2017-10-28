@@ -2,11 +2,10 @@ extends ../index.pug
 
 block content
 
-
 	.col-xs-9
 		a.btn.btn-success.add-blog-button(href='/add-post') Add New Post
-		if posts
-			for post in posts
+		if payload.posts
+			for post in payload.posts
 				.panel.panel-default
 					.panel-heading 
 						h4!= post.title
@@ -19,6 +18,8 @@ block content
 						.col-xs-8
 							p!= post.content
 								a(href='/blog-detail') Continue Reading
+		if !payload.posts
+			p There are no posts
 
 
 	.col-xs-3
@@ -34,15 +35,15 @@ block content
 		.categories
 			.single.category
 				h3.side-title Blog Categories
-				if categories
-					if categories.length > 0
+				if payload.categories
+					if payload.categories.length > 0
 						ul.list-unstyled
-							for category in categories
+							for category in payload.categories
 								li
 									a(href='javascript:void(0)', title='')!= category.name
 										span.pull-right 13
 
-					if categories.length == 0
+					if payload.categories.length == 0
 						p No categories
 
 		.popular-posts

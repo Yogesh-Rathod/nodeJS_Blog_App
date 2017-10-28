@@ -1,6 +1,7 @@
 // ========== Global Dependencies ============ // 
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
+const async = require('async');
 
 // ========== Local Imports ============= //
 
@@ -17,19 +18,32 @@ module.exports = (app) => {
   // ========== All GET Requests ============= //
   app.get('/', (req, res) => {
     if (req.cookies.userLogin) {
-      Categories.find({}, (err, categories) => {
-        if (err) {
-          res.send(err);
-        }
-        Posts.find({}, (err, posts) => {
-          if (err) {
-            res.send(err);
-          }
-          res.render('pages/home', { 
-            title: 'Home',
-            categories: categories,
-            posts: posts
+      // Using Async Module to Avoid CallBack Hell
+      async.waterfall([
+        (callback) => {
+          Categories.find({}, (err, categories) => {
+            if (err) {
+              res.send(err);
+            }
+            callback(null, categories);
           });
+        },
+        (categories, callback) => {
+          Posts.find({}, (err, posts) => {
+            if (err) {
+              res.send(err);
+            }
+            const payload = {
+              categories: categories,
+              posts: posts
+            };
+            callback(null, payload);
+          });
+        },
+      ], function (err, payload) {
+        res.render('pages/home', { 
+          title: 'Home',
+          payload: payload
         });
       });
     } else {
