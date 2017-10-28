@@ -39,8 +39,8 @@ module.exports = (app) => {
             };
             callback(null, payload);
           });
-        },
-      ], function (err, payload) {
+        }
+      ], (err, payload) => {
         res.render('pages/home', { 
           title: 'Home',
           payload: payload
@@ -53,19 +53,32 @@ module.exports = (app) => {
 
   app.get('/home', (req, res) => {
     if (req.cookies.userLogin) {
-      Categories.find({}, (err, categories) => {
-        if (err) {
-          res.send(err);
-        }
-        Posts.find({}, (err, posts) => {
-          if (err) {
-            res.send(err);
-          }
-          res.render('pages/home', {
-            title: 'Home',
-            categories: categories,
-            posts: posts
+      // Using Async Module to Avoid CallBack Hell
+      async.waterfall([
+        (callback) => {
+          Categories.find({}, (err, categories) => {
+            if (err) {
+              res.send(err);
+            }
+            callback(null, categories);
           });
+        },
+        (categories, callback) => {
+          Posts.find({}, (err, posts) => {
+            if (err) {
+              res.send(err);
+            }
+            const payload = {
+              categories: categories,
+              posts: posts
+            };
+            callback(null, payload);
+          });
+        }
+      ], function (err, payload) {
+        res.render('pages/home', {
+          title: 'Home',
+          payload: payload
         });
       });
     } else {
@@ -88,14 +101,6 @@ module.exports = (app) => {
       res.redirect('/login');
     }
   }); 
-
-  app.get('/blog-detail', (req, res) => {
-    if (req.cookies.userLogin) {
-      res.render('pages/blog-detail', { title: 'Blog Details' });
-    } else {
-      res.redirect('/login');
-    }
-  });
 
   // // ========== All POST Requests ============= //
 

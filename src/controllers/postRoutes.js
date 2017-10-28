@@ -1,10 +1,12 @@
 // ========== Global Dependencies ============ // 
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
+const async = require('async');
 
 // ========== Local Imports ============= //
 
 const Posts = require('../models/Posts');
+const Users = require('../models/Users');
 const Categories = require('../models/Categories');
 
 // ========== Routing ============= //
@@ -24,9 +26,44 @@ module.exports = (app, upload) => {
     }
   });
 
+  app.get('/post-detail/:id', (req, res) => {
+    console.log("req.params.id ", req.params.id);
+    // req.params.id
+    if (req.cookies.userLogin) {
+      async.waterfall([
+        (callback) => {
+          Posts.findById({ _id: req.params.id }, (err, post) => {
+            if (err) {
+              res.send(err);
+            }
+            callback(null, post);
+          });
+        },
+        (post, callback) => {
+          Users.findById({ _id: post.author }, (err, author) => {
+            if (err) {
+              res.send(err);
+            }
+            const payload = {
+              post: post,
+              author: author
+            };
+            callback(null, payload);
+          });
+        }
+      ], (err, payload) => {
+        // console.log("payload ", payload);
+        res.render('pages/blog-detail', {
+          title: 'Post Details',
+          payload: payload
+        });
+      });
+    } else {
+      res.redirect('/login');
+    }
+  });
+
   app.post('/add-post', upload.single('postImage'), (req, res) => {
-    console.log("req BODY", req.body);
-    console.log("req FILE", req.file);
     req.checkBody("title", "Title is required.").notEmpty();
     req.checkBody("content", "Content is required.").notEmpty();
     req.checkBody("status", "Status is required.").notEmpty();
@@ -42,7 +79,7 @@ module.exports = (app, upload) => {
       const authorId = req.cookies.userLogin['id'];
       const post = new Posts(req.body);
       post.author = authorId;
-      post.image = req.file.path;
+      post.image = req.file ? req.file.path : '';
       post.save((err, success) => {
         if (err) {
           // Schema Validation Errors

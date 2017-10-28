@@ -4,63 +4,48 @@ block content
   .container
     .row
       .col-lg-12
-        // the actual blog post: title/author/date/content
-        h1
-          a(href='') Blog Post Template for Bootstrap
-        p.lead
-          i.fa.fa-user
-          |  by 
-          a(href='') Super User
-        hr
-        p
-          i.fa.fa-calendar
-          |  Posted on August 24, 2014 at 9:00 PM
-        p
-          i.fa.fa-tags
-          |  Tags: 
-          a(href='')
-            span.badge.badge-info Bootstrap
-          a(href='')
-            span.badge.badge-info Web
-          a(href='')
-            span.badge.badge-info CSS
-          a(href='')
-            span.badge.badge-info HTML
-        hr
-        img.img-responsive(src='http://placehold.it/900x300')
-        hr
-        p.lead
-          | Welcome to Bootstrap Blog Template! This is a blog template example, built with Bootstrap. Contains "tools" that would be needed in a post.
-        p
-          | Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor.
-        p
-          | Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor. Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor.
-        p
-          | Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor. Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor.
-        p
-          | Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor. Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor.
-        br
-        hr
-        // the comment box
-        .well
-          h4
-            i.fa.fa-paper-plane-o
-            |  Leave a Comment:
-          form(role='form')
-            .form-group
-              textarea.form-control(rows='3')
-            button.btn.btn-primary(type='submit')
-              i.fa.fa-reply
-              |  Submit
-        hr
-        // the comments
-        h3
-          i.fa.fa-comment
-          |  User One says:
-          small  9:41 PM on August 24, 2014
-        p Excellent post! Thank You the great article, it was useful!
-        h3
-          i.fa.fa-comment
-          |  User Two says:
-          small  9:47 PM on August 24, 2014
-        p Excellent post! Thank You the great article, it was useful!
+        if payload
+          h1
+            a(href='')!= payload.post.title
+          p.lead
+            i.fa.fa-user
+            |  by 
+            a(href='')!= payload.author.name
+          hr
+          p
+            i.fa.fa-calendar!= ' Posted on ' + payload.post.createdAt
+          p
+            i.fa.fa-tags
+              if payload.post.tags
+                |  Tags: 
+                for tag in payload.post.tags 
+                  a(href='')
+                    span.badge.badge-info!= ' ' + tag
+          hr
+          img.img-responsive(src!='/'+payload.post.image)
+          hr
+          p.lead!= payload.post.content
+          hr
+          // the comment box
+          .well
+            h4
+              i.fa.fa-paper-plane-o
+              |  Leave a Comment:
+            form(role='form')
+              .form-group
+                textarea.form-control(rows='3')
+              button.btn.btn-primary(type='submit')
+                i.fa.fa-reply
+                |  Submit
+          hr
+          // the comments
+          h3
+            i.fa.fa-comment
+            |  User One says:
+            small  9:41 PM on August 24, 2014
+          p Excellent post! Thank You the great article, it was useful!
+          h3
+            i.fa.fa-comment
+            |  User Two says:
+            small  9:47 PM on August 24, 2014
+          p Excellent post! Thank You the great article, it was useful!
