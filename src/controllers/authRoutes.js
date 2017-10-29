@@ -42,8 +42,6 @@ module.exports = (app) => {
       });
       return;
     } else {
-      console.log("req BODY", req.body);
-      // Users.findUser()
       Users.findOne({ 'email': req.body.email }, (err, person) => {
         if (err) {
           console.log(err);

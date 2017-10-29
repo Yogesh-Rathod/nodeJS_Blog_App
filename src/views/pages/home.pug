@@ -8,9 +8,11 @@ block content
 			for post in payload.posts
 				.panel.panel-default
 					.panel-heading 
+						a.btn.btn-danger.pull-right(title='Delete Post', href='/delete-post/'+post.id)
+							i.fa.fa-trash-o(aria-hidden='true')
 						h4!= post.title
-						span By Some one 
-						span!= post.createdAt + ' '
+						span!= 'By ' + post.author.name
+						span  ON: #{moment(post.createdAt).format('ddd, MMM Do YYYY, h:mm a')} 
 						a(href='') 8 comments
 					.panel-body.row
 						.col-xs-4
@@ -18,13 +20,14 @@ block content
 						.col-xs-8
 							if post.content.length > 350
 								p!= post.content.substr(1, 350) + '...'
-									a(href='/blog-detail/') Continue Reading
+									a(href='/post-detail/'+post.id) Continue Reading
 							else 
 								p!= post.content
 									a(href='/post-detail/'+post.id) - Continue Reading
 
-		if !payload.posts
-			p There are no posts
+		if payload.posts
+			if payload.posts.length == 0
+				p There are no posts
 
 
 	.col-xs-3

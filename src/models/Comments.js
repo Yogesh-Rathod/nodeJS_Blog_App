@@ -2,9 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const commentsSchema = mongoose.Schema({
-  post: Schema.ObjectId,
+  post: {
+    type: Schema.ObjectId,
+    ref: 'Posts'
+  },
   content: String,
-  author: Schema.ObjectId
+  author: {
+    type: Schema.ObjectId,
+    ref: 'Users'
+  }
 },{
     timestamps: true
 });

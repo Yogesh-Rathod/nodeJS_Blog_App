@@ -27,8 +27,6 @@ module.exports = (app, upload) => {
   });
 
   app.get('/post-detail/:id', (req, res) => {
-    console.log("req.params.id ", req.params.id);
-    // req.params.id
     if (req.cookies.userLogin) {
       async.waterfall([
         (callback) => {
@@ -100,6 +98,15 @@ module.exports = (app, upload) => {
       });
     }
 
+  });
+
+  app.get('/delete-post/:id', (req, res) => {
+    Posts.findByIdAndRemove( { _id: req.params.id }, (err, success) => {
+      if (err) {
+        res.send(err);
+      }
+      res.redirect('/home');
+    });
   });
 
 }

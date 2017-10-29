@@ -2,6 +2,7 @@
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const async = require('async');
+const after = require("after");
 
 // ========== Local Imports ============= //
 
@@ -29,17 +30,17 @@ module.exports = (app) => {
           });
         },
         (categories, callback) => {
-          Posts.find({}, (err, posts) => {
+          Posts.find({}).populate('author').exec( (err, posts) => {
             if (err) {
               res.send(err);
             }
-            const payload = {
+            let payload = {
               categories: categories,
               posts: posts
             };
             callback(null, payload);
           });
-        }
+        },
       ], (err, payload) => {
         res.render('pages/home', { 
           title: 'Home',
@@ -64,17 +65,17 @@ module.exports = (app) => {
           });
         },
         (categories, callback) => {
-          Posts.find({}, (err, posts) => {
+          Posts.find({}).populate('author').exec((err, posts) => {
             if (err) {
               res.send(err);
             }
-            const payload = {
+            let payload = {
               categories: categories,
               posts: posts
             };
             callback(null, payload);
           });
-        }
+        },
       ], function (err, payload) {
         res.render('pages/home', {
           title: 'Home',

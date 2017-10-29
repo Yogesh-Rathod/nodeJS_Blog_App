@@ -16,6 +16,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const multer = require('multer');
 const upload = multer({ dest: 'public/uploads/' });
+app.locals.moment = require('moment');
 
 // ========== Local Dependencies ============= //
 const config = require('./src/config');
