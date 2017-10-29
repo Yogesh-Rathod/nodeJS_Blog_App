@@ -29,7 +29,7 @@ module.exports = (app) => {
             callback(null, categories);
           });
         },
-        (categories, callback) => {
+        (categories, callback) => { 
           Posts.find({}).populate('author').exec( (err, posts) => {
             if (err) {
               res.send(err);

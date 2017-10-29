@@ -8,11 +8,15 @@ const async = require('async');
 const Posts = require('../models/Posts');
 const Users = require('../models/Users');
 const Categories = require('../models/Categories');
+const Comments = require('../models/Comments');
 
 // ========== Routing ============= //
 
 module.exports = (app, upload) => {
 
+  // ========== All GET Requests ============= //
+
+  // Get Add Post Page
   app.get('/add-post', (req, res) => {
     if (req.cookies.userLogin) {
       Categories.find({}, (err, categories) => {
@@ -26,6 +30,7 @@ module.exports = (app, upload) => {
     }
   });
 
+  // Get Post Details
   app.get('/post-detail/:id', (req, res) => {
     if (req.cookies.userLogin) {
       async.waterfall([
@@ -48,12 +53,22 @@ module.exports = (app, upload) => {
             };
             callback(null, payload);
           });
+        },
+        (incomingPayload, callback) => {
+          Comments.find({}).populate('author').exec( (err, success) => {
+            const payload = {
+              author: incomingPayload.author,
+              post: incomingPayload.post,
+              comments: success
+            };
+            callback(null, payload);
+          });
         }
       ], (err, payload) => {
-        // console.log("payload ", payload);
         res.render('pages/blog-detail', {
           title: 'Post Details',
-          payload: payload
+          payload: payload,
+          loggedInUser: req.cookies.userLogin['id']
         });
       });
     } else {
@@ -61,6 +76,29 @@ module.exports = (app, upload) => {
     }
   });
 
+  // Delete Post
+  app.get('/delete-post/:id', (req, res) => {
+    Posts.findByIdAndRemove({ _id: req.params.id }, (err, success) => {
+      if (err) {
+        res.send(err);
+      }
+      res.redirect('/home');
+    });
+  });
+
+  // Delete Comment
+  app.get('/delete-comment/:id', (req, res) => {
+    Comments.findByIdAndRemove({ _id: req.params.id }, (err, success) => {
+      if (err) {
+        res.send(err);
+      }
+      res.redirect('back');
+    });
+  });
+
+  // // ========== All POST Requests ============= //
+
+  // Add Post
   app.post('/add-post', upload.single('postImage'), (req, res) => {
     req.checkBody("title", "Title is required.").notEmpty();
     req.checkBody("content", "Content is required.").notEmpty();
@@ -100,13 +138,20 @@ module.exports = (app, upload) => {
 
   });
 
-  app.get('/delete-post/:id', (req, res) => {
-    Posts.findByIdAndRemove( { _id: req.params.id }, (err, success) => {
+  // Add Comment
+  app.post('/add-comment/:id', (req, res) => {
+    let comments = new Comments(req.body);
+    comments.post = req.params.id;
+    comments.author = req.cookies.userLogin['id'];
+    
+    comments.save((err, success) => {
       if (err) {
         res.send(err);
       }
-      res.redirect('/home');
+      res.redirect('back');
     });
   });
+
+  
 
 }

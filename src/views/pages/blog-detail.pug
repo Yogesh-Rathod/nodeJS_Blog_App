@@ -1,50 +1,50 @@
 extends ../index.pug
 
 block content
-  .container
-    .row
-      .col-lg-12
-        if payload
-          h1!= payload.post.title
-          p.lead
-            i.fa.fa-user
-            |  by 
-            a(href='')!= payload.author.name
-          hr
-          p
-            i.fa.fa-calendar  Posted on #{moment(payload.post.createdAt).format('ddd, MMM Do YYYY, h:mm a')} 
-          p
-            i.fa.fa-tags
-              if payload.post.tags
-                |  Tags: 
-                for tag in payload.post.tags 
-                  a(href='')
-                    span.badge.badge-info!= ' ' + tag
-          hr
-          img.img-responsive(src!='/'+payload.post.image)
-          hr
-          p.lead!= payload.post.content
-          hr
-          // the comment box
-          .well
-            h4
-              i.fa.fa-paper-plane-o
-              |  Leave a Comment:
-            form(role='form')
-              .form-group
-                textarea.form-control(rows='3')
-              button.btn.btn-primary(type='submit')
-                i.fa.fa-reply
-                |  Submit
-          hr
-          // the comments
-          h3
-            i.fa.fa-comment
-            |  User One says:
-            small  9:41 PM on August 24, 2014
-          p Excellent post! Thank You the great article, it was useful!
-          h3
-            i.fa.fa-comment
-            |  User Two says:
-            small  9:47 PM on August 24, 2014
-          p Excellent post! Thank You the great article, it was useful!
+	.container
+		.row
+			.col-lg-12
+				if payload
+					h1!= payload.post.title
+					p.lead
+						i.fa.fa-user
+						|  by 
+						a(href='')!= payload.author.name
+					hr
+					p
+						i.fa.fa-calendar  Posted on #{moment(payload.post.createdAt).format('ddd, MMM Do YYYY, h:mm a')} 
+					p
+						i.fa.fa-tags
+							if payload.post.tags
+								|  Tags: 
+								for tag in payload.post.tags 
+									a(href='')
+										span.badge.badge-info!= ' ' + tag
+					hr
+					img.img-responsive(src!='/'+payload.post.image)
+					hr
+					p.lead!= payload.post.content
+					hr
+					// the comment box
+					.well
+						h4
+							i.fa.fa-paper-plane-o
+							|  Leave a Comment:
+						form(method='POST', action='/add-comment/'+ payload.post.id)
+							.form-group
+								textarea.form-control(rows='3', name='content')
+							button.btn.btn-primary(type='submit')
+								i.fa.fa-reply
+								|  Submit
+					hr
+					// the comments
+					if payload.comments
+						for comment in payload.comments
+							if payload.post.id == comment.post 
+								h3
+									i.fa.fa-comment!= ' ' + comment.author.name + ' says: '
+									small  #{moment(comment.createdAt).format('ddd, MMM Do YYYY, h:mm a')}
+									if comment.author.id === loggedInUser
+										a.btn.btn-danger.pull-right(title='Delete Comment', href='/delete-comment/'+ comment.id)
+											i.fa.fa-trash-o(aria-hidden='true')
+								p!= comment.content
