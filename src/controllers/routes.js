@@ -18,38 +18,7 @@ module.exports = (app) => {
 
   // ========== All GET Requests ============= //
   app.get('/', (req, res) => {
-    if (req.cookies.userLogin) {
-      // Using Async Module to Avoid CallBack Hell
-      async.waterfall([
-        (callback) => {
-          Categories.find({}, (err, categories) => {
-            if (err) {
-              res.send(err);
-            }
-            callback(null, categories);
-          });
-        },
-        (categories, callback) => { 
-          Posts.find({}).populate('author').exec( (err, posts) => {
-            if (err) {
-              res.send(err);
-            }
-            let payload = {
-              categories: categories,
-              posts: posts
-            };
-            callback(null, payload);
-          });
-        },
-      ], (err, payload) => {
-        res.render('pages/home', { 
-          title: 'Home',
-          payload: payload
-        });
-      });
-    } else {
-      res.redirect('/login');
-    }
+    res.redirect('/home');
   }); 
 
   app.get('/home', (req, res) => {
@@ -65,7 +34,7 @@ module.exports = (app) => {
           });
         },
         (categories, callback) => {
-          Posts.find({}).populate('author').exec((err, posts) => {
+          Posts.find({}).populate('author').sort({ createdAt: -1 }).exec((err, posts) => {
             if (err) {
               res.send(err);
             }
@@ -110,18 +79,18 @@ module.exports = (app) => {
     req.checkBody("email", "Enter a valid email address.").isEmail();
     const errors = req.validationErrors();
     if (errors) {
+      req.flash('errors', errors);
       res.render('pages/contact', {
-        title: 'Contact',
-        errors: errors
+        title: 'Contact'
       });
       return;
     } else {
       sendMail(req.body);
+      req.flash('success', [{ msg: 'Mail is succesfully sent. We will get in touch with you soon.' }]);
+      res.render('pages/contact', {
+        title: 'Contact'
+      });
     }
-    res.render('pages/contact', {
-      title: 'Contact',
-      mailSentMessage: true
-    });
   });
 
   app.post('/category', (req, res) => {

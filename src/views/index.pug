@@ -1,49 +1,50 @@
 doctype html
 html.no-js(lang='')
-  head
-    meta(charset='utf-8')
-    meta(http-equiv='x-ua-compatible', content='ie=edge')
-    title= title
-    meta(name='description', content='')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    link(rel='manifest', href='site.webmanifest')
-    link(rel='apple-touch-icon', href='icon.png')
-    // Place favicon.ico in the root directory
-    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet', integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN', crossorigin='anonymous')
-    link(rel='stylesheet', href='/public/css/vendor/jquery-ui.css')
-    link(rel='stylesheet', href='/public/css/vendor/jquery.ui.all.css')
-    link(rel='stylesheet', href='/public/css/vendor/jquery.tagit.css')
-    link(rel='stylesheet', href='/public/css/vendor/bootstrap.min.css')
-    link(rel='stylesheet', href='/public/css/normalize.css')
-    link(rel='stylesheet', href='/public/css/main.css')
-  body
-    //if lte IE 9
-      p.browserupgrade
-        | You are using an 
-        strong outdated
-        |  browser. Please 
-        a(href='https://browsehappy.com/') upgrade your browser
-        |  to improve your experience and security.
-    // Add your site or application content here
-    
-    header
-      .container
-        include partials/header.pug
+	head
+		meta(charset='utf-8')
+		meta(http-equiv='x-ua-compatible', content='ie=edge')
+		title= title
+		meta(name='description', content='')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		link(rel='manifest', href='site.webmanifest')
+		link(rel='apple-touch-icon', href='icon.png')
+		// Place favicon.ico in the root directory
+		link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet', integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN', crossorigin='anonymous')
+		link(rel='stylesheet', href='/public/css/vendor/jquery-ui.css')
+		link(rel='stylesheet', href='/public/css/vendor/jquery.ui.all.css')
+		link(rel='stylesheet', href='/public/css/vendor/jquery.tagit.css')
+		link(rel='stylesheet', href='/public/css/vendor/bootstrap.min.css')
+		link(rel='stylesheet', href='/public/css/normalize.css')
+		link(rel='stylesheet', href='/public/css/main.css')
+	body
+		//if lte IE 9
+			p.browserupgrade
+				| You are using an 
+				strong outdated
+				|  browser. Please 
+				a(href='https://browsehappy.com/') upgrade your browser
+				|  to improve your experience and security.
+		// Add your site or application content here
+		
+		header
+			.container
+				include partials/header.pug
 
-    main
-      .container
-        block content
+		main
+			.container
+				include partials/flash
+				block content
 
-    footer
-      .container
-        include partials/footer.pug
+		footer
+			.container
+				include partials/footer.pug
 
-    script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
-    script(src='/public/js/vendor/jquery-ui.min.js')
-    script(src='https://cdn.ckeditor.com/4.5.1/standard/ckeditor.js')
-    script(src='/public/js/vendor/tag-it.min.js')
-    script(src='/public/js/vendor/bootstrap.min.js')
-    script(src='/public/js/main.js')
-    script.
-      window.jQuery || document.write('<script src="/public/js/vendor/jquery-3.2.1.min.js"><\\/script>')
-    // Google Analytics: change UA-XXXXX-Y to be your site's ID.
+		script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
+		script(src='/public/js/vendor/jquery-ui.min.js')
+		script(src='https://cdn.ckeditor.com/4.5.1/standard/ckeditor.js')
+		script(src='/public/js/vendor/tag-it.min.js')
+		script(src='/public/js/vendor/bootstrap.min.js')
+		script(src='/public/js/main.js')
+		script.
+			window.jQuery || document.write('<script src="/public/js/vendor/jquery-3.2.1.min.js"><\\/script>')
+		// Google Analytics: change UA-XXXXX-Y to be your site's ID.

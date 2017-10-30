@@ -36,9 +36,9 @@ module.exports = (app) => {
     req.checkBody("password", "Password should be 5 characters long.").isLength({ min: 5 });
     const errors = req.validationErrors();
     if (errors) {
+      req.flash('errors', errors);
       res.render('auth/login', {
-        title: 'Login',
-        errors: errors
+        title: 'Login'
       });
       return;
     } else {
@@ -47,17 +47,15 @@ module.exports = (app) => {
           console.log(err);
         }
         if (!person) {
-          const errors = ['User not found'];
+          req.flash('errors', [{ msg: 'User Not Found!' }]);
           res.render('auth/login', {
-            title: 'Login',
-            errors: errors
+            title: 'Login'
           });
         } else {
           if (!bcrypt.compareSync(req.body.password, person.password)) {
-            const errors = ['Password is wrong!'];
+            req.flash('errors', [{ msg: 'Password is wrong!' }]);
             res.render('auth/login', {
-              title: 'Login',
-              errors: errors
+              title: 'Login'
             });
           } else {
             const userInfo = {
@@ -86,9 +84,9 @@ module.exports = (app) => {
 
     const errors = req.validationErrors();
     if (errors) {
+      req.flash('errors', errors);
       res.render('auth/register', {
-        title: 'Register',
-        errors: errors
+        title: 'Register'
       });
       return;
     } else {
@@ -102,16 +100,16 @@ module.exports = (app) => {
           if (err.errors) {
             const errors = [];
             _.forEach(err.errors, (errorFields) => {
-              errors.push(errorFields.message);
+              errors.push({ msg: errorFields.message });
             });
+            req.flash('errors', errors);
             res.render('auth/register', {
-              title: 'Register',
-              errors: errors
+              title: 'Register'
             });
             return;
           }
         }
-        res.render('pages/home', { title: 'Home' });
+        res.redirect('/home');
       });
     }
   });

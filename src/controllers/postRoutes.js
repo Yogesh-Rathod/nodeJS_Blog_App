@@ -105,12 +105,10 @@ module.exports = (app, upload) => {
     req.checkBody("status", "Status is required.").notEmpty();
     const errors = req.validationErrors();
     if (errors) {
-      // res.send(errors);
+      req.flash('errors', errors);
       res.render('pages/add-post', {
-        title: 'Add Post',
-        errors: errors
+        title: 'Add Post'
       });
-      return;
     } else {
       const authorId = req.cookies.userLogin['id'];
       const post = new Posts(req.body);
@@ -122,11 +120,11 @@ module.exports = (app, upload) => {
           if (err.errors) {
             const errors = [];
             _.forEach(err.errors, (errorFields) => {
-              errors.push(errorFields.message);
+              errors.push({ msg: errorFields.message });
             });
+            req.flash('errors', errors);
             res.render('pages/add-post', {
-              title: 'Add Post',
-              errors: errors
+              title: 'Add Post'
             });
             return;
           }
@@ -148,6 +146,7 @@ module.exports = (app, upload) => {
       if (err) {
         res.send(err);
       }
+      req.flash('success', { msg: 'Comment Sent!' });
       res.redirect('back');
     });
   });

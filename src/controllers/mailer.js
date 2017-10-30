@@ -2,11 +2,16 @@
 // ========== Global Dependencies ============ // 
 const nodemailer = require('nodemailer');
 
+// ========== Local Imports ============= //
+
+const config = require('../config/credentials')
+
+
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   auth: {
-    user: 'yr16666@gmail.com',
-    pass: 8286875250
+    user: config.emailUserName,
+    pass: config.emailPassword
   }
 });
 
