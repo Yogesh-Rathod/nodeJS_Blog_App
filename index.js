@@ -1,5 +1,6 @@
 // ========== Global Dependencies ============ // 
 const express = require('express');
+const compression = require('compression');
 const app = express();
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
@@ -8,12 +9,14 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const path = require('path');
+const errorHandler = require('errorhandler');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('express-flash');
 const validator = require('express-validator');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const expressStatusMonitor = require('express-status-monitor');
 const multer = require('multer');
 const upload = multer({ dest: 'public/uploads/' });
 app.locals.moment = require('moment');
@@ -37,8 +40,9 @@ const PORT = process.env.PORT || 3000;
 
 // ========== Setting Up Middlewares ============= //
 app.use(cors(corsOptions));
+app.use(compression());
 app.use('/public', express.static(path.join(__dirname, 'public')) );
-
+app.use(expressStatusMonitor());
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -99,6 +103,9 @@ postRoutes(app, upload);
 app.get('*', (req, res) => {
   res.render('notfound/notfound', { title: 'Register' });
 });
+
+// Error Handler
+app.use(errorHandler());
 
 // ========== Listen to Requests ============= //
 app.listen(PORT, () => {
