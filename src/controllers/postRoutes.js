@@ -2,6 +2,9 @@
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const async = require('async');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const htmlToText = require('html-to-text');
 
 // ========== Local Imports ============= //
 
@@ -93,6 +96,51 @@ module.exports = (app, upload) => {
         res.send(err);
       }
       res.redirect('back');
+    });
+  });
+
+  app.get('/generate-pdf', (req, res) => {
+    const id = req.query.id;
+
+    Posts.findById({ _id: id }).populate('author').exec((err, post) => {
+      if (err) {
+        res.send(err);
+      }
+
+      const doc = new PDFDocument();
+      const title = post['title'];
+      let content = post['content'];
+      content = htmlToText.fromString(content, {
+        wordwrap: 130
+      });
+      const publish_date = post['createdAt'];
+      const author_name = post.author['name'];
+      const filename = encodeURIComponent(title + ' ' + author_name) + '.pdf';
+      doc.font('Times-Roman', 18)
+      .fontSize(25)
+      .text(title, 100, 50);
+      doc.moveDown()
+      .fillColor('red')
+        .text("Author: " + author_name);
+
+      doc.moveDown()
+      .fillColor('green')
+      .text("Published On: " + new Date(publish_date));
+
+      doc.moveDown()
+      .fillColor('black')
+      .fontSize(15)
+      .text(content, {
+        align: 'justify',
+        indent: 30,
+        height: 300,
+        ellipsis: true
+      });
+      res.setHeader('Content-type', 'application/pdf');
+      res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"')
+      doc.pipe(res);
+      doc.end();
+      // res.redirect('back');
     });
   });
 

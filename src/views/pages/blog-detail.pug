@@ -6,6 +6,9 @@ block content
 			.col-lg-12
 				if payload
 					h1!= payload.post.title
+					a.btn.btn-info.pull-right(href=`/generate-pdf?id=${payload.post.id}`, target="_blank")
+						i.fa.fa-download(aria-hidden='true') 
+							| Download PDF
 					p.lead
 						i.fa.fa-user
 						|  by 
