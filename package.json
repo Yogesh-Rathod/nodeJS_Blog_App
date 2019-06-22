@@ -28,7 +28,7 @@
     "express-session": "^1.15.6",
     "express-status-monitor": "^1.0.1",
     "express-validation": "^1.0.2",
-    "express-validator": "^4.2.1",
+    "express-validator": "^6.0.0",
     "graphql": "^0.11.7",
     "helmet": "^3.9.0",
     "html-to-text": "^3.3.0",
