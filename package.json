@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "after": "^0.8.2",
-    "async": "^2.5.0",
+    "async": "^3.2.2",
     "bcrypt": "^1.0.3",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
