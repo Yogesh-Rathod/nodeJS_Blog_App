@@ -24,7 +24,7 @@
     "express": "^4.16.2",
     "express-flash": "0.0.2",
     "express-graphql": "^0.6.11",
-    "express-jwt": "^5.3.0",
+    "express-jwt": "^6.1.2",
     "express-session": "^1.15.6",
     "express-status-monitor": "^1.0.1",
     "express-validation": "^1.0.2",
