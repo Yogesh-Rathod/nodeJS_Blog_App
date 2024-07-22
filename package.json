@@ -26,7 +26,7 @@
     "express-graphql": "^0.6.11",
     "express-jwt": "^5.3.0",
     "express-session": "^1.15.6",
-    "express-status-monitor": "^1.0.1",
+    "express-status-monitor": "^1.2.5",
     "express-validation": "^1.0.2",
     "express-validator": "^4.2.1",
     "graphql": "^0.11.7",
