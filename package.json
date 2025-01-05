@@ -42,7 +42,7 @@
     "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
-    "pdfkit": "^0.8.3",
+    "pdfkit": "^0.16.0",
     "pug": "^2.0.0-rc.4",
     "validator": "^9.1.0"
   },
